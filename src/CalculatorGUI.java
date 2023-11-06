@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CalculatorGUI extends JFrame implements ActionListener{
+public class CalculatorGUI extends JFrame implements ActionListener {
     private JTextField textField;
     private JButton[] numberBtns;
     private JButton addBtn, subBtn, mulBtn, divBtn, eqBtn, clrBtn;
@@ -73,7 +73,35 @@ public class CalculatorGUI extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
+        JButton source = (JButton)e.getSource();
+        String buttonText = source.getText();
 
+        if (buttonText.matches("[0-9]")) {
+            textField.setText(textField.getText() + buttonText);
+        } else if (!buttonText.equals("=") && !buttonText.equals("C")) {
+            firstNumber = Double.parseDouble(textField.getText());
+            operator = buttonText;
+            textField.setText("");
+        } else if (buttonText.equals("=")) {
+            secondNumber = Double.parseDouble(textField.getText());
+            switch (operator) {
+                case "+":
+                    result = firstNumber + secondNumber;
+                    break;
+                case "-":
+                    result = firstNumber - secondNumber;
+                    break;
+                case "*":
+                    result = firstNumber * secondNumber;
+                    break;
+                case "/":
+                    result = firstNumber / secondNumber;
+                    break;
+            }
+            textField.setText(String.valueOf(result));
+        } else if (buttonText.equals("C")) {
+            textField.setText("");
+        }
     }
 
     public static void main(String[] args) {
